@@ -1,28 +1,46 @@
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-import log from './utilities/log.js';
-import { PORT } from './configuration/index.js';
+import {
+  ALLOWED_ORIGINS,
+  EVENTS,
+  PORT,
+} from './configuration/index.js';
+import log, { bgGreen } from './utilities/log.js';
 
 const httpServer = createServer();
 const io = new Server(
   httpServer,
   {
+    cors: {
+      credentials: true,
+      origin: ALLOWED_ORIGINS,
+    },
     maxHttpBufferSize: 1e10,
     pingInterval: 25000,
     pingTimeout: 10000,
-    serveClient: false,
   },
 );
 
-io.on('connect', (connection) => {
-  log(' -> connected', connection.id);
-  connection.on('disconnect', () => {
-    log(' -> disconnected', connection.id);
-  });
-});
+io.on(
+  EVENTS.connect,
+  (connection) => {
+    log('-> connected', connection.id);
+
+    connection.on(
+      EVENTS.listFile,
+      (data) => {
+        log('received data', JSON.stringify(data));
+      },
+    );
+
+    connection.on(EVENTS.disconnect, () => {
+      log(`-> disconnected ${connection.id}`);
+    });
+  },
+);
 
 httpServer.listen(
   PORT,
-  () => log('EXCH server is running on port', PORT),
+  () => log(bgGreen(`Server is running on port ${PORT}`)),
 );
