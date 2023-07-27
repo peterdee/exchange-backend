@@ -3,7 +3,7 @@ import { EVENTS } from '../configuration/index.js';
 /**
  * Handle 'list-file' event
  * @param {import('socket.io').Socket} connection - socket connection
- * @param {*} data - file data
+ * @param {*} data - listed file data
  * @returns {boolean}
  */
 export default function listFile(connection, data) {

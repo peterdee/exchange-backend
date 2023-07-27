@@ -9,6 +9,7 @@ import {
 import log, { bgGreen } from './utilities/log.js';
 
 // handlers
+import downloadFile from './handlers/download-file.js';
 import listFile from './handlers/list-file.js';
 import requestListedFiles from './handlers/request-listed-files.js';
 
@@ -32,10 +33,13 @@ io.on(
     log('-> connected', connection.id);
 
     connection.on(
+      EVENTS.downloadFile,
+      (data) => downloadFile(connection, io, data),
+    );
+    connection.on(
       EVENTS.listFile,
       (data) => listFile(connection, data),
     );
-
     connection.on(
       EVENTS.requestListedFiles,
       () => requestListedFiles(connection, io),
