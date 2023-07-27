@@ -1,15 +1,26 @@
 {
   "name": "exchange-backend",
-  "version": "1.0.0",
-  "description": "",
+  "description": "Backend application for Exchange project",
   "private": true,
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "nodemon ./index.js",
     "lint": "eslint",
     "start": "node ./index.js"
   },
-  "author": "",
+  "author": {
+    "name": "Peter Dyumin",
+    "url": "https://github.com/peterdee"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterdee/exchange-backend"
+  },
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.3.0",

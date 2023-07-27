@@ -8,6 +8,10 @@ import {
 } from './configuration/index.js';
 import log, { bgGreen } from './utilities/log.js';
 
+// handlers
+import listFile from './handlers/list-file.js';
+import requestListedFiles from './handlers/request-listed-files.js';
+
 const httpServer = createServer();
 const io = new Server(
   httpServer,
@@ -29,9 +33,12 @@ io.on(
 
     connection.on(
       EVENTS.listFile,
-      (data) => {
-        log('received data', JSON.stringify(data));
-      },
+      (data) => listFile(connection, data),
+    );
+
+    connection.on(
+      EVENTS.requestListedFiles,
+      () => requestListedFiles(connection, io),
     );
 
     connection.on(EVENTS.disconnect, () => {

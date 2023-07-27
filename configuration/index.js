@@ -16,7 +16,9 @@ export const {
 export const EVENTS = {
   connect: 'connect',
   disconnect: 'disconnect',
+  downloadFile: 'download-file',
   listFile: 'list-file',
+  requestListedFiles: 'request-listed-files',
 };
 
 export const PORT = Number(ev.PORT) || 9090;
