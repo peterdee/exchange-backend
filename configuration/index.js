@@ -17,8 +17,17 @@ export const EVENTS = {
   connect: 'connect',
   disconnect: 'disconnect',
   downloadFile: 'download-file',
+  downloadFileError: 'download-file-error',
   listFile: 'list-file',
+  requestFileChunk: 'request-file-chunk',
   requestListedFiles: 'request-listed-files',
+  uploadFileChunk: 'upload-file-chunk',
+};
+
+export const MESSAGES = {
+  fileNotFound: 'FILE_NOT_FOUND',
+  fileOwnerDisconnected: 'FILE_OWNER_DISCONNECTED',
+  missingRequiredData: 'MISSING_REQUIRED_DATA',
 };
 
 export const PORT = Number(ev.PORT) || 9090;

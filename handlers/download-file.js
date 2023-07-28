@@ -1,4 +1,4 @@
-import { EVENTS } from '../configuration/index.js';
+import { EVENTS, MESSAGES } from '../configuration/index.js';
 
 /**
  * Handle 'download-file' event
@@ -10,23 +10,40 @@ import { EVENTS } from '../configuration/index.js';
 export default function downloadFile(connection, io, data) {
   const { fileId = '', ownerId = '' } = data;
   if (!(fileId && ownerId)) {
-    // TODO: return error to the current connection
+    return connection.emit(
+      EVENTS.downloadFileError,
+      { info: MESSAGES.missingRequiredData },
+    );
   }
-  const [owner = null] = [...io.sockets.sockets].filter((entry) => entry[0] === ownerId);
-  if (!owner) {
-    // TODO: return error to the current connection
+  const [ownerEntry = null] = [...io.sockets.sockets].filter(
+    (entry) => entry[0] === ownerId,
+  );
+  if (!ownerEntry) {
+    return connection.emit(
+      EVENTS.downloadFileError,
+      { info: MESSAGES.fileOwnerDisconnected },
+    );
   }
-  if (!(owner.listedFiles && Array.isArray(owner.listedFiles) && owner.listedFiles.length > 0)) {
-    // TODO: return error to the current connection
+  const [, owner] = ownerEntry;
+  if (!(owner.listedFiles && Array.isArray(owner.listedFiles)
+    && owner.listedFiles.length > 0)) {
+    return connection.emit(
+      EVENTS.downloadFileError,
+      { info: MESSAGES.fileNotFound },
+    );
   }
   const [file = null] = owner.listedFiles.filter((item) => item.id === fileId);
   if (!file) {
-    // TODO: return error to the current connection
+    return connection.emit(
+      EVENTS.downloadFileError,
+      { info: MESSAGES.fileNotFound },
+    );
   }
-
-  // TODO: send request to the file owner
-  return connection.broadcast.emit(
-    EVENTS.listFile,
-    data,
+  return io.to(ownerId).emit(
+    EVENTS.downloadFile,
+    {
+      fileId,
+      targetId: connection.id,
+    },
   );
 }
