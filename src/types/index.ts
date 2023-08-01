@@ -14,6 +14,10 @@ export interface CustomSocket extends Socket {
   listedFiles: ListedFile[];
 }
 
+export interface DeleteFile {
+  fileId: string;
+}
+
 export interface DownloadFile {
   fileId: string;
   ownerId: string;

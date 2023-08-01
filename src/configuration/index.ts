@@ -16,6 +16,7 @@ export const {
 export const EVENTS = {
   clientDisconnect: 'client-disconnect',
   connect: 'connect',
+  deleteFile: 'delete-file',
   disconnect: 'disconnect',
   downloadFile: 'download-file',
   downloadFileError: 'download-file-error',

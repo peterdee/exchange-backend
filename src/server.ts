@@ -8,15 +8,17 @@ import {
 } from './configuration';
 import type {
   CustomSocket,
+  DeleteFile,
   DownloadFile,
   DownloadFileError,
   ListedFile,
   RequestFileChunk,
   UplaodFileChunk,
 } from './types';
-import log, { bgGreen } from './utilities/log';
+import log from './utilities/log';
 
 // handlers
+import deleteFile from './handlers/delete-file';
 import downloadFileError from './handlers/download-file-error';
 import downloadFile from './handlers/download-file';
 import listFile from './handlers/list-file';
@@ -44,6 +46,10 @@ io.on(
     log('-> connected', connection.id);
 
     connection.on(
+      EVENTS.deleteFile,
+      (data: DeleteFile): boolean => deleteFile(connection, data),
+    );
+    connection.on(
       EVENTS.downloadFile,
       (data: DownloadFile): boolean => downloadFile(connection, io, data),
     );
@@ -68,14 +74,17 @@ io.on(
       (data: UplaodFileChunk): boolean => uploadFileChunk(io, data),
     );
 
-    connection.on(EVENTS.disconnect, () => {
-      log(`-> disconnected ${connection.id}`);
-      return io.emit(EVENTS.clientDisconnect, { id: connection.id });
-    });
+    connection.on(
+      EVENTS.disconnect,
+      (): boolean => {
+        log(`-> disconnected ${connection.id}`);
+        return io.emit(EVENTS.clientDisconnect, { id: connection.id });
+      },
+    );
   },
 );
 
 httpServer.listen(
   PORT,
-  (): void => log(bgGreen(`Server is running on port ${PORT}`)),
+  (): void => log(`Server is running on port ${PORT}`),
 );
