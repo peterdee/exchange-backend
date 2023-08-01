@@ -1,15 +1,11 @@
-import { EVENTS } from '../configuration/index.js';
+import type { Server } from 'socket.io';
 
-/**
- * Handle 'download-file-error' event
- * @param {import('socket.io').Server} io - Socket.IO server
- * @param {*} data - necessary data for file downloading
- * @returns {boolean}
- */
-export default function downloadFileError(io, data) {
-  const { info = '', targetId = '' } = data;
-  return io.to(targetId).emit(
+import type { DownloadFileError } from '../types';
+import { EVENTS } from '../configuration';
+
+export default function downloadFileError(io: Server, data: DownloadFileError): boolean {
+  return io.to(data.targetId).emit(
     EVENTS.downloadFileError,
-    { info, targetId },
+    data,
   );
 }

@@ -1,13 +1,13 @@
-import { EVENTS, MESSAGES } from '../configuration/index.js';
+import type { Server, Socket } from 'socket.io';
 
-/**
- * Handle 'download-file' event
- * @param {import('socket.io').Socket} connection - socket connection
- * @param {import('socket.io').Server} io - Socket.IO server
- * @param {*} data - necessary data for file downloading
- * @returns {boolean}
- */
-export default function downloadFile(connection, io, data) {
+import type { CustomSocket, DownloadFile, ListedFile } from '../types';
+import { EVENTS, MESSAGES } from '../configuration';
+
+export default function downloadFile(
+  connection: Socket,
+  io: Server,
+  data: DownloadFile,
+): boolean {
   const { fileId = '', ownerId = '' } = data;
   if (!(fileId && ownerId)) {
     return connection.emit(
@@ -16,7 +16,7 @@ export default function downloadFile(connection, io, data) {
     );
   }
   const [ownerEntry = null] = [...io.sockets.sockets].filter(
-    (entry) => entry[0] === ownerId,
+    (entry): boolean => entry[0] === ownerId,
   );
   if (!ownerEntry) {
     return connection.emit(
@@ -24,7 +24,7 @@ export default function downloadFile(connection, io, data) {
       { info: MESSAGES.fileOwnerDisconnected },
     );
   }
-  const [, owner] = ownerEntry;
+  const owner = ownerEntry[1] as CustomSocket;
   if (!(owner.listedFiles && Array.isArray(owner.listedFiles)
     && owner.listedFiles.length > 0)) {
     return connection.emit(
@@ -32,7 +32,9 @@ export default function downloadFile(connection, io, data) {
       { info: MESSAGES.fileNotFound },
     );
   }
-  const [file = null] = owner.listedFiles.filter((item) => item.id === fileId);
+  const [file = null] = owner.listedFiles.filter(
+    (item: ListedFile): boolean => item.id === fileId,
+  );
   if (!file) {
     return connection.emit(
       EVENTS.downloadFileError,

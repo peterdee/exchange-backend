@@ -1,15 +1,10 @@
-import { EVENTS } from '../configuration/index.js';
+import type { Server } from 'socket.io';
 
-/**
- * Handle 'download-file' event
- * @param {import('socket.io').Socket} connection - socket connection
- * @param {import('socket.io').Server} io - Socket.IO server
- * @param {*} data - necessary data for file downloading
- * @returns {boolean}
- */
-export default function uploadFileChunk(io, data) {
-  const { targetId } = data;
-  return io.to(targetId).emit(
+import { EVENTS } from '../configuration';
+import type { UplaodFileChunk } from '../types';
+
+export default function uploadFileChunk(io: Server, data: UplaodFileChunk): boolean {
+  return io.to(data.targetId).emit(
     EVENTS.uploadFileChunk,
     data,
   );

@@ -6,7 +6,14 @@ import {
   EVENTS,
   PORT,
 } from './configuration';
-import type { CustomSocket, ListedFile } from './types';
+import type {
+  CustomSocket,
+  DownloadFile,
+  DownloadFileError,
+  ListedFile,
+  RequestFileChunk,
+  UplaodFileChunk,
+} from './types';
 import log, { bgGreen } from './utilities/log';
 
 // handlers
@@ -36,18 +43,30 @@ io.on(
   (connection: CustomSocket): void => {
     log('-> connected', connection.id);
 
-    connection.on(EVENTS.downloadFile, (data) => downloadFile(connection, io, data));
-    connection.on(EVENTS.downloadFileError, (data) => downloadFileError(io, data));
+    connection.on(
+      EVENTS.downloadFile,
+      (data: DownloadFile): boolean => downloadFile(connection, io, data),
+    );
+    connection.on(
+      EVENTS.downloadFileError,
+      (data: DownloadFileError): boolean => downloadFileError(io, data),
+    );
     connection.on(
       EVENTS.listFile,
       (data: ListedFile): boolean => listFile(connection, data),
     );
-    connection.on(EVENTS.requestFileChunk, (data) => requestFileChunk(io, data));
+    connection.on(
+      EVENTS.requestFileChunk,
+      (data: RequestFileChunk): boolean => requestFileChunk(io, data),
+    );
     connection.on(
       EVENTS.requestListedFiles,
       (): boolean => requestListedFiles(connection, io),
     );
-    connection.on(EVENTS.uploadFileChunk, (data) => uploadFileChunk(io, data));
+    connection.on(
+      EVENTS.uploadFileChunk,
+      (data: UplaodFileChunk): boolean => uploadFileChunk(io, data),
+    );
 
     connection.on(EVENTS.disconnect, () => {
       log(`-> disconnected ${connection.id}`);

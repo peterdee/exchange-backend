@@ -13,3 +13,32 @@ export interface ListedFile {
 export interface CustomSocket extends Socket {
   listedFiles: ListedFile[];
 }
+
+export interface DownloadFile {
+  fileId: string;
+  ownerId: string;
+}
+
+export interface DownloadFileError {
+  info: string;
+  targetId: string;
+}
+
+export interface RequestFileChunk {
+  chunkIndex: number;
+  fileId: string;
+  ownerId: string;
+  targetId: string;
+}
+
+export interface UplaodFileChunk {
+  chunk: string;
+  currentChunk: number;
+  fileId: string;
+  fileName: string;
+  fileSize: number;
+  ownerId: string;
+  targetId: string;
+  totalChunks: number;
+  type: string;
+}
