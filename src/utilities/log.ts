@@ -8,7 +8,7 @@ const logger = new Console(process.stdout, process.stderr);
 export const bgGreen = chalk.bgGreenBright;
 export const red = chalk.redBright;
 
-export default function log(...values) {
+export default function log(...values: unknown[]): void {
   if (ENV === ENVS.file) {
     logger.log(`${chalk.magentaBright(`[XCH ${Date.now()}]`)} ${values.join(' ')}`);
   }

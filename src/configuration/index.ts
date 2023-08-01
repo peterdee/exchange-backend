@@ -2,7 +2,7 @@ const { env: ev } = process;
 
 export const ALLOWED_ORIGINS = ev.ALLOWED_ORIGINS
   ? ev.ALLOWED_ORIGINS.split(',')
-  : '';
+  : [];
 
 export const ENVS = {
   file: 'file',
@@ -14,6 +14,7 @@ export const {
 } = ev;
 
 export const EVENTS = {
+  clientDisconnect: 'client-disconnect',
   connect: 'connect',
   disconnect: 'disconnect',
   downloadFile: 'download-file',

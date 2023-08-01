@@ -1,10 +1,10 @@
 const { ENV = '' } = process.env;
 
-(async () => {
+(async (): Promise<typeof import('./server')> => {
   if (!ENV || (ENV && ENV === 'file')) {
     const { default: dotenv } = await import('dotenv');
     dotenv.config();
-    return import('./server.js');
+    return import('./server');
   }
-  return import('./server.js');
+  return import('./server');
 })();

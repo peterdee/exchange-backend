@@ -1,5 +1,6 @@
 # Directories
 .idea/
+build/
 node_modules/
 
 # Files

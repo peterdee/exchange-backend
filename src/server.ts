@@ -5,16 +5,17 @@ import {
   ALLOWED_ORIGINS,
   EVENTS,
   PORT,
-} from './configuration/index.js';
-import log, { bgGreen } from './utilities/log.js';
+} from './configuration';
+import type { CustomSocket, ListedFile } from './types';
+import log, { bgGreen } from './utilities/log';
 
 // handlers
-import downloadFileError from './handlers/download-file-error.js';
-import downloadFile from './handlers/download-file.js';
-import listFile from './handlers/list-file.js';
-import requestFileChunk from './handlers/request-file-chunk.js';
-import requestListedFiles from './handlers/request-listed-files.js';
-import uploadFileChunk from './handlers/upload-file-chunk.js';
+import downloadFileError from './handlers/download-file-error';
+import downloadFile from './handlers/download-file';
+import listFile from './handlers/list-file';
+import requestFileChunk from './handlers/request-file-chunk';
+import requestListedFiles from './handlers/request-listed-files';
+import uploadFileChunk from './handlers/upload-file-chunk';
 
 const httpServer = createServer();
 const io = new Server(
@@ -32,23 +33,30 @@ const io = new Server(
 
 io.on(
   EVENTS.connect,
-  (connection) => {
+  (connection: CustomSocket): void => {
     log('-> connected', connection.id);
 
     connection.on(EVENTS.downloadFile, (data) => downloadFile(connection, io, data));
     connection.on(EVENTS.downloadFileError, (data) => downloadFileError(io, data));
-    connection.on(EVENTS.listFile, (data) => listFile(connection, data));
+    connection.on(
+      EVENTS.listFile,
+      (data: ListedFile): boolean => listFile(connection, data),
+    );
     connection.on(EVENTS.requestFileChunk, (data) => requestFileChunk(io, data));
-    connection.on(EVENTS.requestListedFiles, () => requestListedFiles(connection, io));
+    connection.on(
+      EVENTS.requestListedFiles,
+      (): boolean => requestListedFiles(connection, io),
+    );
     connection.on(EVENTS.uploadFileChunk, (data) => uploadFileChunk(io, data));
 
     connection.on(EVENTS.disconnect, () => {
       log(`-> disconnected ${connection.id}`);
+      return io.emit(EVENTS.clientDisconnect, { id: connection.id });
     });
   },
 );
 
 httpServer.listen(
   PORT,
-  () => log(bgGreen(`Server is running on port ${PORT}`)),
+  (): void => log(bgGreen(`Server is running on port ${PORT}`)),
 );
