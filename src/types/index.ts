@@ -46,3 +46,7 @@ export interface UplaodFileChunk {
   totalChunks: number;
   type: string;
 }
+
+export interface UpdateFilePrivacy extends DownloadFile {
+  isPrivate: boolean;
+}

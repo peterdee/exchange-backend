@@ -13,6 +13,7 @@ import type {
   DownloadFileError,
   ListedFile,
   RequestFileChunk,
+  UpdateFilePrivacy,
   UplaodFileChunk,
 } from './types';
 import log from './utilities/log';
@@ -24,6 +25,7 @@ import downloadFile from './handlers/download-file';
 import listFile from './handlers/list-file';
 import requestFileChunk from './handlers/request-file-chunk';
 import requestListedFiles from './handlers/request-listed-files';
+import updateFilePrivacy from './handlers/update-file-privacy';
 import uploadFileChunk from './handlers/upload-file-chunk';
 
 const httpServer = createServer();
@@ -68,6 +70,10 @@ io.on(
     connection.on(
       EVENTS.requestListedFiles,
       (): boolean => requestListedFiles(connection, io),
+    );
+    connection.on(
+      EVENTS.updateFilePrivacy,
+      (data: UpdateFilePrivacy): boolean | void => updateFilePrivacy(connection, data),
     );
     connection.on(
       EVENTS.uploadFileChunk,
