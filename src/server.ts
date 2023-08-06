@@ -19,6 +19,7 @@ import type {
 import log from './utilities/log';
 
 // handlers
+import deleteAllFiles from './handlers/delete-all-files';
 import deleteFile from './handlers/delete-file';
 import downloadFileError from './handlers/download-file-error';
 import downloadFile from './handlers/download-file';
@@ -36,7 +37,7 @@ const io = new Server(
       credentials: true,
       origin: ALLOWED_ORIGINS,
     },
-    maxHttpBufferSize: 1e10,
+    maxHttpBufferSize: 1e10, // 100 MB
     pingInterval: 25000,
     pingTimeout: 10000,
   },
@@ -47,6 +48,10 @@ io.on(
   (connection: CustomSocket): void => {
     log('-> connected', connection.id);
 
+    connection.on(
+      EVENTS.deleteAllFiles,
+      (): boolean => deleteAllFiles(connection),
+    );
     connection.on(
       EVENTS.deleteFile,
       (data: DeleteFile): boolean => deleteFile(connection, data),

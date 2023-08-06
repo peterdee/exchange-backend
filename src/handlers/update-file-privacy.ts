@@ -1,5 +1,5 @@
-import { EVENTS } from '../configuration';
 import type { CustomSocket, ListedFile, UpdateFilePrivacy } from '../types';
+import { EVENTS } from '../configuration';
 
 export default function updateFilePrivacy(
   connection: CustomSocket,
