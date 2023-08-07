@@ -10,8 +10,7 @@ export default function updateDeviceName(
     && Array.isArray(connection.listedFiles)) {
     connection.listedFiles.forEach(
       (item: ListedFile): void => {
-        const copy = item;
-        copy.deviceName = newDeviceName;
+        item.deviceName = newDeviceName;
       },
     );
     return connection.broadcast.emit(

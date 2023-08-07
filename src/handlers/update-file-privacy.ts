@@ -11,8 +11,7 @@ export default function updateFilePrivacy(
     connection.listedFiles.forEach(
       (item: ListedFile): void => {
         if (item.id === fileId) {
-          const copy = item;
-          copy.private = isPrivate;
+          item.private = isPrivate;
         }
       },
     );
