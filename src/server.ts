@@ -13,6 +13,7 @@ import type {
   DownloadFileError,
   ListedFile,
   RequestFileChunk,
+  UpdateDeviceName,
   UpdateFilePrivacy,
   UplaodFileChunk,
 } from './types';
@@ -26,6 +27,7 @@ import downloadFile from './handlers/download-file';
 import listFile from './handlers/list-file';
 import requestFileChunk from './handlers/request-file-chunk';
 import requestListedFiles from './handlers/request-listed-files';
+import updateDeviceName from './handlers/update-device-name';
 import updateFilePrivacy from './handlers/update-file-privacy';
 import uploadFileChunk from './handlers/upload-file-chunk';
 
@@ -77,8 +79,12 @@ io.on(
       (): boolean => requestListedFiles(connection, io),
     );
     connection.on(
+      EVENTS.updateDeviceName,
+      (data: UpdateDeviceName): null | boolean => updateDeviceName(connection, data),
+    );
+    connection.on(
       EVENTS.updateFilePrivacy,
-      (data: UpdateFilePrivacy): boolean | void => updateFilePrivacy(connection, data),
+      (data: UpdateFilePrivacy): null | boolean => updateFilePrivacy(connection, data),
     );
     connection.on(
       EVENTS.uploadFileChunk,

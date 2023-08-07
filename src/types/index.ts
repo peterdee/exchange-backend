@@ -35,6 +35,15 @@ export interface RequestFileChunk {
   targetId: string;
 }
 
+export interface UpdateDeviceName {
+  newDeviceName: string;
+  ownerId: string;
+}
+
+export interface UpdateFilePrivacy extends DownloadFile {
+  isPrivate: boolean;
+}
+
 export interface UplaodFileChunk {
   chunk: string;
   currentChunk: number;
@@ -45,8 +54,4 @@ export interface UplaodFileChunk {
   targetId: string;
   totalChunks: number;
   type: string;
-}
-
-export interface UpdateFilePrivacy extends DownloadFile {
-  isPrivate: boolean;
 }

@@ -1,23 +1,21 @@
-import type { CustomSocket, ListedFile, UpdateFilePrivacy } from '../types';
+import type { CustomSocket, ListedFile, UpdateDeviceName } from '../types';
 import { EVENTS } from '../configuration';
 
-export default function updateFilePrivacy(
+export default function updateDeviceName(
   connection: CustomSocket,
-  data: UpdateFilePrivacy,
+  data: UpdateDeviceName,
 ): null | boolean {
-  const { fileId = '', isPrivate, ownerId = '' } = data;
+  const { newDeviceName = '', ownerId = '' } = data;
   if (ownerId === connection.id && connection.listedFiles
     && Array.isArray(connection.listedFiles)) {
     connection.listedFiles.forEach(
       (item: ListedFile): void => {
-        if (item.id === fileId) {
-          const copy = item;
-          copy.private = isPrivate;
-        }
+        const copy = item;
+        copy.deviceName = newDeviceName;
       },
     );
     return connection.broadcast.emit(
-      EVENTS.updateFilePrivacy,
+      EVENTS.updateDeviceName,
       data,
     );
   }
