@@ -12,6 +12,12 @@ export interface ListedFile {
   withPassword: boolean;
 }
 
+export interface AcknowledgementMessage<T = null> {
+  data?: T;
+  info: string;
+  status: number;
+}
+
 export interface CustomSocket extends Socket {
   listedFiles: ListedFile[];
 }
@@ -35,7 +41,7 @@ export interface RemovePassword {
   ownerId: string;
 }
 
-export interface AddPassword extends RemovePassword {
+export interface ChangePassword extends RemovePassword {
   password: string;
 }
 

@@ -7,6 +7,8 @@ import {
   PORT,
 } from './configuration';
 import type {
+  AcknowledgementMessage,
+  ChangePassword,
   CustomSocket,
   DeleteFile,
   DownloadFile,
@@ -20,6 +22,7 @@ import type {
 import log from './utilities/log';
 
 // handlers
+import changePassword from './handlers/change-password';
 import deleteAllFiles from './handlers/delete-all-files';
 import deleteFile from './handlers/delete-file';
 import downloadFileError from './handlers/download-file-error';
@@ -50,6 +53,13 @@ io.on(
   (connection: CustomSocket): void => {
     log('-> connected', connection.id);
 
+    connection.on(
+      EVENTS.changePassword,
+      (
+        data: ChangePassword,
+        callback: (value: AcknowledgementMessage) => void,
+      ): Promise<boolean | void> => changePassword(connection, data, callback),
+    );
     connection.on(
       EVENTS.deleteAllFiles,
       (): boolean => deleteAllFiles(connection),

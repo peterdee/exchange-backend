@@ -14,7 +14,6 @@ export const {
 } = ev;
 
 export const EVENTS = {
-  addPassword: 'add-password',
   changePassword: 'change-password',
   clientDisconnect: 'client-disconnect',
   connect: 'connect',
@@ -35,6 +34,7 @@ export const MESSAGES = {
   fileNotFound: 'FILE_NOT_FOUND',
   fileOwnerDisconnected: 'FILE_OWNER_DISCONNECTED',
   missingRequiredData: 'MISSING_REQUIRED_DATA',
+  ok: 'OK',
 };
 
 export const PORT = Number(ev.PORT) || 9090;
