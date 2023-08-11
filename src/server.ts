@@ -12,9 +12,9 @@ import type {
   DownloadFile,
   DownloadFileError,
   ListedFile,
+  RemovePassword,
   RequestFileChunk,
   UpdateDeviceName,
-  UpdateFilePrivacy,
   UplaodFileChunk,
 } from './types';
 import log from './utilities/log';
@@ -25,10 +25,10 @@ import deleteFile from './handlers/delete-file';
 import downloadFileError from './handlers/download-file-error';
 import downloadFile from './handlers/download-file';
 import listFile from './handlers/list-file';
+import removePassword from './handlers/remove-password';
 import requestFileChunk from './handlers/request-file-chunk';
 import requestListedFiles from './handlers/request-listed-files';
 import updateDeviceName from './handlers/update-device-name';
-import updateFilePrivacy from './handlers/update-file-privacy';
 import uploadFileChunk from './handlers/upload-file-chunk';
 
 const httpServer = createServer();
@@ -68,7 +68,11 @@ io.on(
     );
     connection.on(
       EVENTS.listFile,
-      (data: ListedFile): boolean => listFile(connection, data),
+      (data: ListedFile): Promise<boolean> => listFile(connection, data),
+    );
+    connection.on(
+      EVENTS.requestFileChunk,
+      (data: RemovePassword): boolean => removePassword(connection, data),
     );
     connection.on(
       EVENTS.requestFileChunk,
@@ -81,10 +85,6 @@ io.on(
     connection.on(
       EVENTS.updateDeviceName,
       (data: UpdateDeviceName): null | boolean => updateDeviceName(connection, data),
-    );
-    connection.on(
-      EVENTS.updateFilePrivacy,
-      (data: UpdateFilePrivacy): null | boolean => updateFilePrivacy(connection, data),
     );
     connection.on(
       EVENTS.uploadFileChunk,

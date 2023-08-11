@@ -9,9 +9,11 @@ export default function requestListedFiles(connection: CustomSocket, io: Server)
     const [, socket] = entry;
     if (socket.listedFiles && Array.isArray(socket.listedFiles)) {
       socket.listedFiles.forEach((file: ListedFile): void => {
-        if (!file.private) {
-          listedFiles.push(file);
-        }
+        listedFiles.push({
+          ...file,
+          grant: '',
+          passwordHash: '',
+        });
       });
     }
   });

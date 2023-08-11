@@ -3,11 +3,13 @@ import type { Socket } from 'socket.io';
 export interface ListedFile {
   createdAt: number;
   deviceName: string;
+  grant: string;
   id: string;
   name: string;
   ownerId: string;
-  private: boolean;
+  passwordHash: string;
   size: number;
+  withPassword: boolean;
 }
 
 export interface CustomSocket extends Socket {
@@ -28,6 +30,15 @@ export interface DownloadFileError {
   targetId: string;
 }
 
+export interface RemovePassword {
+  fileId: string;
+  ownerId: string;
+}
+
+export interface AddPassword extends RemovePassword {
+  password: string;
+}
+
 export interface RequestFileChunk {
   chunkIndex: number;
   fileId: string;
@@ -38,10 +49,6 @@ export interface RequestFileChunk {
 export interface UpdateDeviceName {
   newDeviceName: string;
   ownerId: string;
-}
-
-export interface UpdateFilePrivacy extends DownloadFile {
-  isPrivate: boolean;
 }
 
 export interface UplaodFileChunk {

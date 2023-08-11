@@ -1,6 +1,6 @@
 import { Console } from 'console';
 
-import { ENV, ENVS } from '../configuration/index.js';
+import { ENV, ENVS } from '../configuration';
 
 const logger = new Console(process.stdout, process.stderr);
 

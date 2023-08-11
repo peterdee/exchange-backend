@@ -14,6 +14,8 @@ export const {
 } = ev;
 
 export const EVENTS = {
+  addPassword: 'add-password',
+  changePassword: 'change-password',
   clientDisconnect: 'client-disconnect',
   connect: 'connect',
   deleteAllFiles: 'delete-all-files',
@@ -22,9 +24,9 @@ export const EVENTS = {
   downloadFile: 'download-file',
   downloadFileError: 'download-file-error',
   listFile: 'list-file',
+  removePassword: 'remove-password',
   requestFileChunk: 'request-file-chunk',
   requestListedFiles: 'request-listed-files',
-  updateFilePrivacy: 'update-file-privacy',
   updateDeviceName: 'update-device-name',
   uploadFileChunk: 'upload-file-chunk',
 };
