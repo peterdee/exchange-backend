@@ -37,7 +37,7 @@ export default async function changePassword(
     );
   }
   connection.broadcast.emit(
-    EVENTS.removePassword,
+    EVENTS.changePassword,
     {
       fileId,
       ownerId: connection.id,

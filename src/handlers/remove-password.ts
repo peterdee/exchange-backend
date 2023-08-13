@@ -8,16 +8,12 @@ export default function removePassword(
   const { fileId = '', ownerId = '' } = data;
   if (connection.id === ownerId && connection.listedFiles
     && Array.isArray(connection.listedFiles)) {
-    connection.listedFiles = connection.listedFiles.map(
-      (item: ListedFile): ListedFile => {
+    connection.listedFiles.forEach(
+      (item: ListedFile): void => {
         if (item.id === fileId) {
-          return {
-            ...item,
-            passwordHash: '',
-            withPassword: false,
-          };
+          item.passwordHash = '';
+          item.withPassword = false;
         }
-        return item;
       },
     );
   }
