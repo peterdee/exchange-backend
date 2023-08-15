@@ -18,52 +18,44 @@ export interface AcknowledgementMessage<T = null> {
   status: number;
 }
 
+export interface GenericFileData {
+  fileId: string;
+  ownerId: string;
+}
+
 export interface CustomSocket extends Socket {
   listedFiles: ListedFile[];
 }
 
-export interface DeleteFile {
-  fileId: string;
-}
-
-export interface DownloadFile {
-  fileId: string;
-  ownerId: string;
-}
+export type DeleteFile = Pick<GenericFileData, 'fileId'>;
 
 export interface DownloadFileError {
   info: string;
   targetId: string;
 }
 
-export interface RemovePassword {
-  fileId: string;
-  ownerId: string;
-}
-
-export interface ChangePassword extends RemovePassword {
+export interface ChangePassword extends GenericFileData {
   password: string;
 }
 
-export interface RequestFileChunk {
+export interface RequestGrant extends GenericFileData {
+  password: string;
+}
+
+export interface RequestFileChunk extends GenericFileData {
   chunkIndex: number;
-  fileId: string;
-  ownerId: string;
   targetId: string;
 }
 
-export interface UpdateDeviceName {
+export type UpdateDeviceName = Pick<GenericFileData, 'ownerId'> & {
   newDeviceName: string;
-  ownerId: string;
 }
 
-export interface UplaodFileChunk {
+export interface UplaodFileChunk extends GenericFileData {
   chunk: string;
   currentChunk: number;
-  fileId: string;
   fileName: string;
   fileSize: number;
-  ownerId: string;
   targetId: string;
   totalChunks: number;
   type: string;

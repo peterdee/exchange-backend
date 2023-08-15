@@ -1,24 +1,24 @@
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 
-import {
-  ALLOWED_ORIGINS,
-  EVENTS,
-  PORT,
-} from './configuration';
 import type {
   AcknowledgementMessage,
   ChangePassword,
   CustomSocket,
   DeleteFile,
-  DownloadFile,
   DownloadFileError,
+  GenericFileData,
   ListedFile,
-  RemovePassword,
   RequestFileChunk,
+  RequestGrant,
   UpdateDeviceName,
   UplaodFileChunk,
 } from './types';
+import {
+  ALLOWED_ORIGINS,
+  EVENTS,
+  PORT,
+} from './configuration';
 import log from './utilities/log';
 
 // handlers
@@ -30,6 +30,7 @@ import downloadFile from './handlers/download-file';
 import listFile from './handlers/list-file';
 import removePassword from './handlers/remove-password';
 import requestFileChunk from './handlers/request-file-chunk';
+import requestGrant from './handlers/request-grant';
 import requestListedFiles from './handlers/request-listed-files';
 import updateDeviceName from './handlers/update-device-name';
 import uploadFileChunk from './handlers/upload-file-chunk';
@@ -70,7 +71,7 @@ io.on(
     );
     connection.on(
       EVENTS.downloadFile,
-      (data: DownloadFile): boolean => downloadFile(connection, io, data),
+      (data: GenericFileData): boolean => downloadFile(connection, io, data),
     );
     connection.on(
       EVENTS.downloadFileError,
@@ -82,11 +83,18 @@ io.on(
     );
     connection.on(
       EVENTS.requestFileChunk,
-      (data: RemovePassword): boolean => removePassword(connection, data),
+      (data: GenericFileData): boolean => removePassword(connection, data),
     );
     connection.on(
       EVENTS.requestFileChunk,
       (data: RequestFileChunk): boolean => requestFileChunk(io, data),
+    );
+    connection.on(
+      EVENTS.requestGrant,
+      (
+        data: RequestGrant,
+        callback: (value: AcknowledgementMessage<{ grant: string } | null>) => void,
+      ): Promise<void> => requestGrant(connection, io, data, callback),
     );
     connection.on(
       EVENTS.requestListedFiles,

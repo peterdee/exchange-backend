@@ -1,12 +1,13 @@
 import type { Server, Socket } from 'socket.io';
 
-import type { CustomSocket, DownloadFile, ListedFile } from '../types';
+import type { CustomSocket, GenericFileData, ListedFile } from '../types';
 import { EVENTS, MESSAGES } from '../configuration';
 
+// TODO: use acknowledgements instead of a separate event
 export default function downloadFile(
   connection: Socket,
   io: Server,
-  data: DownloadFile,
+  data: GenericFileData,
 ): boolean {
   const { fileId = '', ownerId = '' } = data;
   if (!(fileId && ownerId)) {
