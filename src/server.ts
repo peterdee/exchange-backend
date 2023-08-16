@@ -21,7 +21,6 @@ import {
 } from './configuration';
 import log from './utilities/log';
 
-// handlers
 import changePassword from './handlers/change-password';
 import deleteAllFiles from './handlers/delete-all-files';
 import deleteFile from './handlers/delete-file';
@@ -94,7 +93,7 @@ io.on(
       (
         data: RequestGrant,
         callback: (value: AcknowledgementMessage<{ grant: string } | null>) => void,
-      ): Promise<void> => requestGrant(connection, io, data, callback),
+      ): Promise<void> => requestGrant(io, data, callback),
     );
     connection.on(
       EVENTS.requestListedFiles,
@@ -118,6 +117,8 @@ io.on(
     );
   },
 );
+
+// TODO: graceful shutdown
 
 httpServer.listen(
   PORT,

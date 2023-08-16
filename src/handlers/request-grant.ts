@@ -10,7 +10,6 @@ import { compareHashWithPlaintext } from '../utilities/hash';
 import { MESSAGES } from '../configuration';
 
 export default async function requestGrant(
-  connection: CustomSocket,
   io: Server,
   data: RequestGrant,
   callback: (value: AcknowledgementMessage<{ grant: string } | null>) => void,
