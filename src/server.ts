@@ -6,7 +6,6 @@ import type {
   ChangePassword,
   CustomSocket,
   DeleteFile,
-  DownloadFileError,
   GenericFileData,
   ListedFile,
   RequestFileChunk,
@@ -24,7 +23,6 @@ import log from './utilities/log';
 import changePassword from './handlers/change-password';
 import deleteAllFiles from './handlers/delete-all-files';
 import deleteFile from './handlers/delete-file';
-import downloadFileError from './handlers/download-file-error';
 import downloadFile from './handlers/download-file';
 import listFile from './handlers/list-file';
 import removePassword from './handlers/remove-password';
@@ -70,11 +68,10 @@ io.on(
     );
     connection.on(
       EVENTS.downloadFile,
-      (data: GenericFileData): boolean => downloadFile(connection, io, data),
-    );
-    connection.on(
-      EVENTS.downloadFileError,
-      (data: DownloadFileError): boolean => downloadFileError(io, data),
+      (
+        data: GenericFileData,
+        callback: (value: AcknowledgementMessage) => void,
+      ): Promise<boolean | void> => downloadFile(connection, io, data, callback),
     );
     connection.on(
       EVENTS.listFile,

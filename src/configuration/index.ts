@@ -21,7 +21,6 @@ export const EVENTS = {
   deleteFile: 'delete-file',
   disconnect: 'disconnect',
   downloadFile: 'download-file',
-  downloadFileError: 'download-file-error',
   listFile: 'list-file',
   removePassword: 'remove-password',
   requestFileChunk: 'request-file-chunk',
@@ -35,7 +34,9 @@ export const MESSAGES = {
   fileNotFound: 'FILE_NOT_FOUND',
   fileOwnerDisconnected: 'FILE_OWNER_DISCONNECTED',
   invalidData: 'INVALID_DATA',
+  invalidGrant: 'INVALID_GRANT',
   invalidPassword: 'INVALID_PASSWORD',
+  missingGrant: 'MISSING_GRANT',
   missingRequiredData: 'MISSING_REQUIRED_DATA',
   ok: 'OK',
 };

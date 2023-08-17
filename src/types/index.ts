@@ -29,9 +29,8 @@ export interface CustomSocket extends Socket {
 
 export type DeleteFile = Pick<GenericFileData, 'fileId'>;
 
-export interface DownloadFileError {
-  info: string;
-  targetId: string;
+export interface DownloadFile extends GenericFileData {
+  grant?: string;
 }
 
 export interface ChangePassword extends GenericFileData {
