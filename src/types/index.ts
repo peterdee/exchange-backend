@@ -3,12 +3,12 @@ import type { Socket } from 'socket.io';
 export interface ListedFile {
   createdAt: number;
   deviceName: string;
+  fileName: string;
+  fileSize: number;
   grant: string;
   id: string;
-  name: string;
   ownerId: string;
   passwordHash: string;
-  size: number;
   withPassword: boolean;
 }
 
