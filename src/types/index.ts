@@ -51,7 +51,7 @@ export type UpdateDeviceName = Pick<GenericFileData, 'ownerId'> & {
 }
 
 export interface UplaodFileChunk extends GenericFileData {
-  chunk: string;
+  chunk: ArrayBuffer;
   currentChunk: number;
   fileName: string;
   fileSize: number;
