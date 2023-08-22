@@ -1,4 +1,4 @@
-import { createServer } from 'http';
+import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 
 import type {
@@ -32,9 +32,10 @@ import requestListedFiles from './handlers/request-listed-files';
 import updateDeviceName from './handlers/update-device-name';
 import uploadFileChunk from './handlers/upload-file-chunk';
 
-const httpServer = createServer();
+const serverInstance = createServer();
+
 const io = new Server(
-  httpServer,
+  serverInstance,
   {
     cors: {
       credentials: true,
@@ -117,7 +118,7 @@ io.on(
 
 // TODO: graceful shutdown
 
-httpServer.listen(
+serverInstance.listen(
   PORT,
   (): void => log(`Server is running on port ${PORT}`),
 );
