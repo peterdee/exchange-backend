@@ -7,7 +7,7 @@
     "build": "tsc -p tsconfig.json",
     "dev": "nodemon",
     "lint": "eslint",
-    "start": "node ./build/index.js"
+    "start": "npm run build && node ./build/index.js"
   },
   "author": {
     "name": "Peter Dyumin",
@@ -25,7 +25,8 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "scryptwrap": "^2.0.0",
-    "socket.io": "^4.7.1"
+    "socket.io": "^4.7.1",
+    "typescript": "^5.1.6"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.2.1",
@@ -33,7 +34,6 @@
     "eslint": "^8.46.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.28.0",
-    "nodemon": "^3.0.1",
-    "typescript": "^5.1.6"
+    "nodemon": "^3.0.1"
   }
 }
