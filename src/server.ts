@@ -7,7 +7,7 @@ import type {
   CustomSocket,
   DeleteFile,
   GenericFileData,
-  ListedFile,
+  ListFile,
   RequestFileChunk,
   RequestGrant,
   UpdateDeviceName,
@@ -76,7 +76,7 @@ io.on(
     );
     connection.on(
       EVENTS.listFile,
-      (data: ListedFile): Promise<boolean> => listFile(connection, data),
+      (data: ListFile): Promise<boolean> => listFile(connection, data),
     );
     connection.on(
       EVENTS.requestFileChunk,

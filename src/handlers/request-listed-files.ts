@@ -12,7 +12,6 @@ export default function requestListedFiles(connection: CustomSocket, io: Server)
         listedFiles.push({
           ...file,
           grant: '',
-          passwordHash: '',
         });
       });
     }

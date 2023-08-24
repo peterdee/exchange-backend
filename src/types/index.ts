@@ -1,14 +1,12 @@
 import type { Socket } from 'socket.io';
 
-export interface ListedFile {
+interface GenericListedFileData {
   createdAt: number;
   deviceName: string;
   fileName: string;
   fileSize: number;
-  grant: string;
   id: string;
   ownerId: string;
-  passwordHash: string;
   withPassword: boolean;
 }
 
@@ -21,6 +19,15 @@ export interface AcknowledgementMessage<T = null> {
 export interface GenericFileData {
   fileId: string;
   ownerId: string;
+}
+
+export interface ListedFile extends GenericListedFileData {
+  grant: string;
+  passwordHash: string;
+}
+
+export interface ListFile extends GenericListedFileData {
+  password: string;
 }
 
 export interface CustomSocket extends Socket {
