@@ -25,11 +25,15 @@ The `.env` file is required for local development, see [.env.example](.env.examp
 npm run dev
 ```
 
+Local server will be available at http://localhost:9090
+
 ##### Launch when deployed to the cloud
 
 ```shell script
 npm start
 ```
+
+Production server is available at https://exchange-backend-rous.onrender.com
 
 ### Cloud deployment
 
