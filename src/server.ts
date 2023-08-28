@@ -31,6 +31,7 @@ import requestGrant from './handlers/request-grant';
 import requestListedFiles from './handlers/request-listed-files';
 import updateDeviceName from './handlers/update-device-name';
 import uploadFileChunk from './handlers/upload-file-chunk';
+import gracefulShutdown from './utilities/graceful-shutdown';
 
 const serverInstance = createServer();
 
@@ -103,7 +104,7 @@ io.on(
     );
     connection.on(
       EVENTS.uploadFileChunk,
-      (data: UplaodFileChunk): boolean => uploadFileChunk(io, data),
+      (data: UplaodFileChunk): boolean => uploadFileChunk(connection, io, data),
     );
 
     connection.on(
@@ -116,7 +117,15 @@ io.on(
   },
 );
 
-// TODO: graceful shutdown
+process.on(
+  'SIGINT',
+  (signal): void => gracefulShutdown(signal, io, serverInstance),
+);
+
+process.on(
+  'SIGTERM',
+  (signal): void => gracefulShutdown(signal, io, serverInstance),
+);
 
 serverInstance.listen(
   PORT,

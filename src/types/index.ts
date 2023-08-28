@@ -7,6 +7,7 @@ interface GenericListedFileData {
   fileSize: number;
   id: string;
   ownerId: string;
+  totalDownloads: number;
   withPassword: boolean;
 }
 

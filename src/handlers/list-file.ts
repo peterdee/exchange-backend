@@ -15,6 +15,7 @@ export default async function listFile(
     passwordHash = await createHash(data.password);
     data.password = '';
   }
+  data.totalDownloads = 0;
   const listedFile: ListedFile = {
     ...data,
     grant,

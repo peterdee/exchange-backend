@@ -27,6 +27,7 @@ export const EVENTS = {
   requestGrant: 'request-grant',
   requestListedFiles: 'request-listed-files',
   updateDeviceName: 'update-device-name',
+  updateTotalDownloads: 'update-total-downloads',
   uploadFileChunk: 'upload-file-chunk',
 };
 
