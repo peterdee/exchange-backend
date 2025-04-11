@@ -1,17 +1,12 @@
-import type {
-  AcknowledgementMessage,
-  ChangePassword,
-  CustomSocket,
-  ListedFile,
-} from '../types';
 import { createHash } from '../utilities/hash';
 import { EVENTS, MESSAGES } from '../configuration';
+import type * as types from '../types';
 
 export default async function changePassword(
-  connection: CustomSocket,
-  data: ChangePassword,
-  callback: (value: AcknowledgementMessage) => void,
-): Promise<void | boolean> {
+  connection: types.CustomSocket,
+  data: types.ChangePassword,
+  callback: (value: types.AcknowledgementMessage) => void,
+) {
   const {
     fileId = '',
     ownerId = '',
@@ -28,7 +23,7 @@ export default async function changePassword(
   if (connection.id === ownerId && connection.listedFiles
     && Array.isArray(connection.listedFiles)) {
     connection.listedFiles.forEach(
-      (item: ListedFile): void => {
+      (item: types.ListedFile): void => {
         if (item.id === fileId) {
           item.passwordHash = hashed;
           item.withPassword = true;

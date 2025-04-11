@@ -2,7 +2,9 @@ const { env: ev } = process;
 
 export const ENV_NAMES = {
   ALLOWED_ORIGINS: 'ALLOWED_ORIGINS',
+  CHUNK_SIZE_BYTES: 'CHUNK_SIZE_BYTES',
   ENV: 'ENV',
+  MAX_FILE_SIZE_BYTES: 'MAX_FILE_SIZE_BYTES',
   PORT: 'PORT',
   TYPE: 'TYPE',
 };
@@ -15,6 +17,9 @@ export const ENVS = {
 export const ALLOWED_ORIGINS = ev[ENV_NAMES.ALLOWED_ORIGINS]
   ? ev[ENV_NAMES.ALLOWED_ORIGINS].split(',')
   : [];
+
+// Use 120KB as a chunk size by default
+export const CHUNK_SIZE_BYTES = Number(ev[ENV_NAMES.CHUNK_SIZE_BYTES]) || 122880;
 
 export const ENV = ev[ENV_NAMES.ENV] || ENVS.file;
 
@@ -31,10 +36,14 @@ export const EVENTS = {
   requestFileChunk: 'request-file-chunk',
   requestGrant: 'request-grant',
   requestListedFiles: 'request-listed-files',
+  requestServerConfiguration: 'request-server-configuration',
   updateDeviceName: 'update-device-name',
   updateTotalDownloads: 'update-total-downloads',
   uploadFileChunk: 'upload-file-chunk',
 };
+
+// Use 100MB as a maximum single file size by default
+export const MAX_FILE_SIZE_BYTES = Number(ev[ENV_NAMES.MAX_FILE_SIZE_BYTES]) || 104857600;
 
 export const MESSAGES = {
   fileNotFound: 'FILE_NOT_FOUND',

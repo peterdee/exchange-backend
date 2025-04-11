@@ -1,15 +1,15 @@
-import type { CustomSocket, GenericFileData, ListedFile } from '../types';
 import { EVENTS } from '../configuration';
+import type * as types from '../types';
 
 export default function removePassword(
-  connection: CustomSocket,
-  data: GenericFileData,
+  connection: types.CustomSocket,
+  data: types.GenericFileData,
 ): boolean {
   const { fileId = '', ownerId = '' } = data;
   if (connection.id === ownerId && connection.listedFiles
     && Array.isArray(connection.listedFiles)) {
     connection.listedFiles.forEach(
-      (item: ListedFile): void => {
+      (item: types.ListedFile): void => {
         if (item.id === fileId) {
           item.passwordHash = '';
           item.withPassword = false;

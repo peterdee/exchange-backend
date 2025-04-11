@@ -3,7 +3,7 @@ import type { Server } from 'socket.io';
 import type { CustomSocket, ListedFile } from '../types';
 import { EVENTS } from '../configuration';
 
-export default function requestListedFiles(connection: CustomSocket, io: Server): boolean {
+export default function requestListedFiles(connection: CustomSocket, io: Server) {
   const listedFiles: ListedFile[] = [];
   [...io.sockets.sockets].forEach((entry: [id: string, socket: CustomSocket]): void => {
     const [, socket] = entry;

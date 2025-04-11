@@ -1,19 +1,14 @@
 import type { Server } from 'socket.io';
 
-import type {
-  AcknowledgementMessage,
-  CustomSocket,
-  ListedFile,
-  RequestGrant,
-} from '../types';
 import { compareHashWithPlaintext } from '../utilities/hash';
 import { MESSAGES } from '../configuration';
+import type * as types from '../types';
 
 export default async function requestGrant(
   io: Server,
-  data: RequestGrant,
-  callback: (value: AcknowledgementMessage<{ grant: string } | null>) => void,
-): Promise<void> {
+  data: types.RequestGrant,
+  callback: (value: types.AcknowledgementMessage<{ grant: string } | null>) => void,
+) {
   const {
     fileId = '',
     ownerId = '',
@@ -35,7 +30,7 @@ export default async function requestGrant(
       status: 400,
     });
   }
-  const owner = ownerEntry[1] as CustomSocket;
+  const owner = ownerEntry[1] as types.CustomSocket;
   if (!(owner.listedFiles && Array.isArray(owner.listedFiles)
     && owner.listedFiles.length > 0)) {
     return callback({
@@ -44,7 +39,7 @@ export default async function requestGrant(
     });
   }
   const [file = null] = owner.listedFiles.filter(
-    (item: ListedFile): boolean => item.id === fileId,
+    (item: types.ListedFile): boolean => item.id === fileId,
   );
   if (!file) {
     return callback({
