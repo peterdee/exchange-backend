@@ -4,7 +4,7 @@ import { ENV, ENVS } from '../configuration';
 
 const logger = new Console(process.stdout, process.stderr);
 
-export default function log(...values: unknown[]): void {
+export default function log(...values: unknown[]) {
   if (ENV === ENVS.file) {
     logger.log(`[XCH ${Date.now()}] ${values.join(' ')}`);
   }

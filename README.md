@@ -18,9 +18,9 @@ npm ci
 
 The `.env` file is required for local development, see [.env.example](.env.example) for details
 
-### Launch
+### Launching
 
-##### Launch locally
+##### Launching for development
 
 ```shell script
 npm run dev
@@ -28,7 +28,13 @@ npm run dev
 
 Local server will be available at http://localhost:9090
 
-##### Launch when deployed to the cloud
+##### Launching for local network (prints server address in local network)
+
+```shell script
+TYPE=local npm run dev
+```
+
+##### Launching for production (no logging, no network address information)
 
 ```shell script
 npm start

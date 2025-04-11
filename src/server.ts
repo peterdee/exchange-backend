@@ -5,10 +5,13 @@ import {
   ALLOWED_ORIGINS,
   EVENTS,
   PORT,
+  TYPE,
+  TYPES,
 } from './configuration';
 import type { CustomSocket } from './types';
 import gracefulShutdown from './utilities/graceful-shutdown';
 import log from './utilities/log';
+import localAddress from './utilities/local-address';
 import router from './router';
 
 const serverInstance = createServer();
@@ -28,20 +31,25 @@ const io = new IOServer(
 
 io.on(
   EVENTS.connect,
-  (connection: CustomSocket): void => router(connection, io),
+  (connection: CustomSocket) => router(connection, io),
 );
 
 process.on(
   'SIGINT',
-  (signal): void => gracefulShutdown(signal, io, serverInstance),
+  (signal) => gracefulShutdown(signal, io, serverInstance),
 );
 
 process.on(
   'SIGTERM',
-  (signal): void => gracefulShutdown(signal, io, serverInstance),
+  (signal) => gracefulShutdown(signal, io, serverInstance),
 );
 
 serverInstance.listen(
   PORT,
-  (): void => log(`Server is running on port ${PORT}`),
+  () => {
+    log(`Server is running on port ${PORT}`);
+    if (TYPE === TYPES.local) {
+      localAddress(PORT);
+    }
+  },
 );

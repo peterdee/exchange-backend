@@ -1,17 +1,22 @@
 const { env: ev } = process;
 
-export const ALLOWED_ORIGINS = ev.ALLOWED_ORIGINS
-  ? ev.ALLOWED_ORIGINS.split(',')
-  : [];
+export const ENV_NAMES = {
+  ALLOWED_ORIGINS: 'ALLOWED_ORIGINS',
+  ENV: 'ENV',
+  PORT: 'PORT',
+  TYPE: 'TYPE',
+};
 
 export const ENVS = {
   file: 'file',
   nofile: 'nofile',
 };
 
-export const {
-  ENV = ENVS.file,
-} = ev;
+export const ALLOWED_ORIGINS = ev[ENV_NAMES.ALLOWED_ORIGINS]
+  ? ev[ENV_NAMES.ALLOWED_ORIGINS].split(',')
+  : [];
+
+export const ENV = ev[ENV_NAMES.ENV] || ENVS.file;
 
 export const EVENTS = {
   changePassword: 'change-password',
@@ -42,4 +47,10 @@ export const MESSAGES = {
   ok: 'OK',
 };
 
-export const PORT = Number(ev.PORT) || 9090;
+export const PORT = Number(ev[ENV_NAMES.PORT]) || 9090;
+
+export const TYPE = ev[ENV_NAMES.TYPE];
+
+export const TYPES = {
+  local: 'local',
+};

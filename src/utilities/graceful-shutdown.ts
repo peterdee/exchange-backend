@@ -7,7 +7,7 @@ export default function gracefulShutdown(
   signal: string,
   io: IOServer,
   server: HTTPServer,
-): void {
+) {
   server.close((serverClosingError: Error): void => {
     if (serverClosingError) {
       throw serverClosingError;
