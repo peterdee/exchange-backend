@@ -27,7 +27,7 @@ import requestListedFiles from '../handlers/request-listed-files';
 import updateDeviceName from '../handlers/update-device-name';
 import uploadFileChunk from '../handlers/upload-file-chunk';
 
-export default function router(connection: CustomSocket, io: IOServer): void {
+export default function router(connection: CustomSocket, io: IOServer) {
   log('-> connected', connection.id);
 
   connection.on(
