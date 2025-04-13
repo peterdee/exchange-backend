@@ -1,19 +1,14 @@
 import type { Server, Socket } from 'socket.io';
 
-import type {
-  AcknowledgementMessage,
-  CustomSocket,
-  DownloadFile,
-  ListedFile,
-} from '../types';
 import { EVENTS, MESSAGES } from '../configuration';
+import type * as types from '../types';
 
 export default async function downloadFile(
   connection: Socket,
   io: Server,
-  data: DownloadFile,
-  callback: (value: AcknowledgementMessage) => void,
-): Promise<boolean | void> {
+  data: types.DownloadFile,
+  callback: (value: types.AcknowledgementMessage) => void,
+) {
   const { fileId = '', ownerId = '' } = data;
   if (!(fileId && ownerId)) {
     return callback({
@@ -30,7 +25,7 @@ export default async function downloadFile(
       status: 400,
     });
   }
-  const owner = ownerEntry[1] as CustomSocket;
+  const owner = ownerEntry[1] as types.CustomSocket;
   if (!(owner.listedFiles && Array.isArray(owner.listedFiles)
     && owner.listedFiles.length > 0)) {
     return callback({
@@ -39,7 +34,7 @@ export default async function downloadFile(
     });
   }
   const [file = null] = owner.listedFiles.filter(
-    (item: ListedFile): boolean => item.id === fileId,
+    (item: types.ListedFile): boolean => item.id === fileId,
   );
   if (!file) {
     return callback({

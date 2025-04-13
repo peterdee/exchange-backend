@@ -1,14 +1,14 @@
-import type { CustomSocket, DeleteFile, ListedFile } from '../types';
 import { EVENTS } from '../configuration';
+import type * as types from '../types';
 
 export default function deleteFile(
-  connection: CustomSocket,
-  data: DeleteFile,
-): boolean {
+  connection: types.CustomSocket,
+  data: types.DeleteFile,
+) {
   const { fileId = '' } = data;
   if (connection.listedFiles && Array.isArray(connection.listedFiles)) {
     connection.listedFiles = connection.listedFiles.filter(
-      (item: ListedFile): boolean => item.id !== fileId,
+      (item: types.ListedFile): boolean => item.id !== fileId,
     );
   }
   return connection.broadcast.emit(

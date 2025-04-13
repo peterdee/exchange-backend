@@ -54,6 +54,12 @@ export interface RequestFileChunk extends GenericFileData {
   targetId: string;
 }
 
+export interface ServerConfiguration {
+  chunkSizeBytes: number;
+  isLocalServer: boolean;
+  maxFileSizeBytes: number;
+}
+
 export type UpdateDeviceName = Pick<GenericFileData, 'ownerId'> & {
   newDeviceName: string;
 }

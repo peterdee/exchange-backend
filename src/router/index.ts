@@ -1,17 +1,5 @@
 import type { Server as IOServer } from 'socket.io';
 
-import type {
-  AcknowledgementMessage,
-  ChangePassword,
-  CustomSocket,
-  DeleteFile,
-  GenericFileData,
-  ListFile,
-  RequestFileChunk,
-  RequestGrant,
-  UpdateDeviceName,
-  UplaodFileChunk,
-} from '../types';
 import { EVENTS } from '../configuration';
 import log from '../utilities/log';
 
@@ -24,74 +12,84 @@ import removePassword from '../handlers/remove-password';
 import requestFileChunk from '../handlers/request-file-chunk';
 import requestGrant from '../handlers/request-grant';
 import requestListedFiles from '../handlers/request-listed-files';
+import requestServerConfiguration from '../handlers/request-server-configuration';
 import updateDeviceName from '../handlers/update-device-name';
 import uploadFileChunk from '../handlers/upload-file-chunk';
 
-export default function router(connection: CustomSocket, io: IOServer) {
+import type * as types from '../types';
+
+export default function router(connection: types.CustomSocket, io: IOServer) {
   log('-> connected', connection.id);
 
   connection.on(
     EVENTS.changePassword,
     (
-      data: ChangePassword,
-      callback: (value: AcknowledgementMessage) => void,
-    ): Promise<boolean | void> => changePassword(connection, data, callback),
+      data: types.ChangePassword,
+      callback: (value: types.AcknowledgementMessage) => void,
+    ) => changePassword(connection, data, callback),
   );
 
   connection.on(
     EVENTS.deleteAllFiles,
-    (): boolean => deleteAllFiles(connection),
+    () => deleteAllFiles(connection),
   );
 
   connection.on(
     EVENTS.deleteFile,
-    (data: DeleteFile): boolean => deleteFile(connection, data),
+    (data: types.DeleteFile) => deleteFile(connection, data),
   );
 
   connection.on(
     EVENTS.downloadFile,
     (
-      data: GenericFileData,
-      callback: (value: AcknowledgementMessage) => void,
-    ): Promise<boolean | void> => downloadFile(connection, io, data, callback),
+      data: types.GenericFileData,
+      callback: (value: types.AcknowledgementMessage) => void,
+    ) => downloadFile(connection, io, data, callback),
   );
 
   connection.on(
     EVENTS.listFile,
-    (data: ListFile): Promise<boolean> => listFile(connection, data),
+    (data: types.ListFile) => listFile(connection, data),
   );
 
   connection.on(
     EVENTS.requestFileChunk,
-    (data: GenericFileData): boolean => removePassword(connection, data),
+    (data: types.GenericFileData) => removePassword(connection, data),
   );
 
   connection.on(
     EVENTS.requestFileChunk,
-    (data: RequestFileChunk): boolean => requestFileChunk(io, data),
+    (data: types.RequestFileChunk) => requestFileChunk(io, data),
   );
 
   connection.on(
     EVENTS.requestGrant,
     (
-      data: RequestGrant,
-      callback: (value: AcknowledgementMessage<{ grant: string } | null>) => void,
-    ): Promise<void> => requestGrant(io, data, callback),
+      data: types.RequestGrant,
+      callback: (value: types.AcknowledgementMessage<{ grant: string } | null>) => void,
+    ) => requestGrant(io, data, callback),
   );
 
   connection.on(
     EVENTS.requestListedFiles,
-    (): boolean => requestListedFiles(connection, io),
+    () => requestListedFiles(connection, io),
+  );
+
+  connection.on(
+    EVENTS.requestServerConfiguration,
+    (
+      callback: (value: types.AcknowledgementMessage<types.ServerConfiguration>) => void,
+    ) => requestServerConfiguration(callback),
   );
 
   connection.on(
     EVENTS.updateDeviceName,
-    (data: UpdateDeviceName): null | boolean => updateDeviceName(connection, data),
+    (data: types.UpdateDeviceName) => updateDeviceName(connection, data),
   );
 
   connection.on(
     EVENTS.uploadFileChunk,
-    (data: UplaodFileChunk): boolean => uploadFileChunk(connection, io, data),
+    (data: types.UplaodFileChunk) => uploadFileChunk(connection, io, data),
   );
 
   connection.on(

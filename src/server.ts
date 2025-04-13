@@ -3,6 +3,7 @@ import { Server as IOServer } from 'socket.io';
 
 import {
   ALLOWED_ORIGINS,
+  CHUNK_SIZE_BYTES,
   EVENTS,
   PORT,
   TYPE,
@@ -10,8 +11,8 @@ import {
 } from './configuration';
 import type { CustomSocket } from './types';
 import gracefulShutdown from './utilities/graceful-shutdown';
-import log from './utilities/log';
 import localAddress from './utilities/local-address';
+import log from './utilities/log';
 import router from './router';
 
 const serverInstance = createServer();
@@ -23,7 +24,7 @@ const io = new IOServer(
       credentials: true,
       origin: ALLOWED_ORIGINS,
     },
-    maxHttpBufferSize: 1e10, // 100 MB
+    maxHttpBufferSize: CHUNK_SIZE_BYTES * 2,
     pingInterval: 25000,
     pingTimeout: 10000,
   },

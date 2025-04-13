@@ -1,11 +1,11 @@
 import { createHash } from '../utilities/hash';
-import type { CustomSocket, ListFile, ListedFile } from '../types';
 import { EVENTS } from '../configuration';
+import type * as types from '../types';
 
 export default async function listFile(
-  connection: CustomSocket,
-  data: ListFile,
-): Promise<boolean> {
+  connection: types.CustomSocket,
+  data: types.ListFile,
+) {
   if (!connection.listedFiles) {
     connection.listedFiles = [];
   }
@@ -16,7 +16,7 @@ export default async function listFile(
     data.password = '';
   }
   data.totalDownloads = 0;
-  const listedFile: ListedFile = {
+  const listedFile: types.ListedFile = {
     ...data,
     grant,
     passwordHash,
