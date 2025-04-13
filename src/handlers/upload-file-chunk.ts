@@ -1,16 +1,16 @@
 import type { Server } from 'socket.io';
 
 import { EVENTS } from '../configuration';
-import type { CustomSocket, ListedFile, UplaodFileChunk } from '../types';
+import type * as types from '../types';
 
 export default function uploadFileChunk(
-  connection: CustomSocket,
+  connection: types.CustomSocket,
   io: Server,
-  data: UplaodFileChunk,
+  data: types.UplaodFileChunk,
 ): boolean {
   if (data.currentChunk === data.totalChunks) {
     const { fileId } = data;
-    connection.listedFiles.forEach((item: ListedFile): void => {
+    connection.listedFiles.forEach((item: types.ListedFile): void => {
       if (item.id === fileId) {
         const { totalDownloads } = item;
         item.totalDownloads += 1;
