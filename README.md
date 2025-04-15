@@ -20,21 +20,45 @@ The `.env` file is required for local development, see [.env.example](.env.examp
 
 ### Launching
 
-##### Launching for development
+##### Launching for development (uses WS)
 
 ```shell script
 npm run dev
 ```
 
-Local server will be available at http://localhost:9090
+Server will be available at ws://localhost:9090
 
-##### Launching for local network (prints server address in local network)
+##### Launching for local network (prints server address in local network and uses WSS)
+
+Before launching in local mode you need to do some additional configuration
+
+Create a new directory called `certificates` in the root of the project and open it
 
 ```shell script
-TYPE=local npm run dev
+mkdir certificates
+cd ./certificates
 ```
 
-##### Launching for production (no logging, no network address information)
+Generate certificates that are used when you launch server locally (OpenSSL is required for that)
+
+```shell script
+# MacOS / Windows
+openssl genrsa -out key.pem 1024
+openssl req -new -key key.pem -out csr.pem
+openssl x509 -req -in csr.pem -signkey key.pem -out cert.pem
+```
+
+You need to generate certificates only once
+
+When you launch the server it will use generated certificates and use HTTPS instead of HTTP for Socket.IO server
+
+```shell script
+npm run local
+```
+
+Server will be available at wss://localhost:9090
+
+##### Launching for production (no logging, no network address information, uses WS)
 
 ```shell script
 npm start

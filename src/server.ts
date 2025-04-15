@@ -1,22 +1,34 @@
-import { createServer } from 'node:http';
+import { createServer as createHttpServer } from 'node:http';
+import { createServer as createHttpsServer } from 'node:https';
+import ip from 'ip';
+import { readFileSync } from 'node:fs';
 import { Server as IOServer } from 'socket.io';
 
 import {
   ALLOWED_ORIGINS,
   CHUNK_SIZE_BYTES,
   EVENTS,
+  MODE,
   PORT,
-  TYPE,
-  TYPES,
+  USE_HTTPS,
 } from './configuration';
 import type { CustomSocket } from './types';
 import gracefulShutdown from './utilities/graceful-shutdown';
-import localAddress from './utilities/local-address';
-import log from './utilities/log';
+import printAddress from './utilities/print-address';
 import router from './router';
 
-const serverInstance = createServer();
+const serverInstance = USE_HTTPS
+  ? createHttpsServer({
+    cert: readFileSync('./certificates/cert.pem'),
+    key: readFileSync('./certificates/key.pem'),
+  })
+  : createHttpServer();
 
+if (MODE === 'local') {
+  ALLOWED_ORIGINS.push(`https://${ip.address()}:3000`);
+}
+
+console.log(ALLOWED_ORIGINS);
 const io = new IOServer(
   serverInstance,
   {
@@ -45,12 +57,4 @@ process.on(
   (signal) => gracefulShutdown(signal, io, serverInstance),
 );
 
-serverInstance.listen(
-  PORT,
-  () => {
-    log(`Server is running on port ${PORT}`);
-    if (TYPE === TYPES.local) {
-      localAddress(PORT);
-    }
-  },
-);
+serverInstance.listen(PORT, () => printAddress(PORT, USE_HTTPS));

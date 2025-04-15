@@ -1,5 +1,5 @@
 {
-  "exec": "npm start",
+  "exec": "npm run build && cross-env ENV_SOURCE=file MODE=public NODE_ENV=development USE_HTTPS=true node ./build/index.js",
   "ext": "ts",
   "ignore": [
     ".git",
