@@ -7,10 +7,10 @@ export default function uploadFileChunk(
   connection: types.CustomSocket,
   io: Server,
   data: types.UplaodFileChunk,
-): boolean {
+) {
   if (data.currentChunk === data.totalChunks) {
     const { fileId } = data;
-    connection.listedFiles.forEach((item: types.ListedFile): void => {
+    connection.listedFiles.forEach((item: types.ListedFile) => {
       if (item.id === fileId) {
         const { totalDownloads } = item;
         item.totalDownloads += 1;

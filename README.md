@@ -16,59 +16,33 @@ npm ci
 
 ### Environment variables
 
-The `.env` file is required for local development, see [.env.example](.env.example) for details
+Required environment variables are listed in the [.env.example](.env.example) file
+
+The `.env` file is required for local development (see `dev` script in [./package.json](./package.json))
+
+The `ENV_FILE` variable determines if `.env` file is required or not (if variable is not set then `.env` is not required)
 
 ### Launching
 
-##### Launching for development (uses WS)
+##### Launching for development
 
 ```shell script
 npm run dev
 ```
 
-Server will be available at ws://localhost:9090
-
-##### Launching for local network (prints server address in local network and uses WSS)
-
-Before launching in local mode you need to do some additional configuration
-
-Create a new directory called `certificates` in the root of the project and open it
-
-```shell script
-mkdir certificates
-cd ./certificates
-```
-
-Generate certificates that are used when you launch server locally (OpenSSL is required for that)
-
-```shell script
-# MacOS / Windows
-openssl genrsa -out key.pem 1024
-openssl req -new -key key.pem -out csr.pem
-openssl x509 -req -in csr.pem -signkey key.pem -out cert.pem
-```
-
-You need to generate certificates only once
-
-When you launch the server it will use generated certificates and use HTTPS instead of HTTP for Socket.IO server
-
-```shell script
-npm run local
-```
-
-Server will be available at wss://localhost:9090
-
-##### Launching for production (no logging, no network address information, uses WS)
+##### Launching for production
 
 ```shell script
 npm start
 ```
 
-Demo (public) server is available at https://exchange-backend-rous.onrender.com and is used by default for https://exchange.dyum.in
+Server will be available at ws://localhost:9090
 
 ### Cloud deployment
 
 `release` branch of this repository is automatically deployed to [Render](https://render.com)
+
+Demo (public) server is available at https://exchange-backend-rous.onrender.com and is used by default for https://exchange.dyum.in
 
 ### License
 

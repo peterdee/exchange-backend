@@ -94,7 +94,7 @@ export default function router(connection: types.CustomSocket, io: IOServer) {
 
   connection.on(
     EVENTS.disconnect,
-    (): boolean => {
+    () => {
       log(`-> disconnected ${connection.id}`);
       return io.emit(EVENTS.clientDisconnect, { id: connection.id });
     },

@@ -16,9 +16,7 @@ export default async function downloadFile(
       status: 400,
     });
   }
-  const [ownerEntry = null] = [...io.sockets.sockets].filter(
-    (entry): boolean => entry[0] === ownerId,
-  );
+  const [ownerEntry = null] = [...io.sockets.sockets].filter((entry) => entry[0] === ownerId);
   if (!ownerEntry) {
     return callback({
       info: MESSAGES.fileOwnerDisconnected,
@@ -33,9 +31,7 @@ export default async function downloadFile(
       status: 400,
     });
   }
-  const [file = null] = owner.listedFiles.filter(
-    (item: types.ListedFile): boolean => item.id === fileId,
-  );
+  const [file = null] = owner.listedFiles.filter((item: types.ListedFile) => item.id === fileId);
   if (!file) {
     return callback({
       info: MESSAGES.fileNotFound,

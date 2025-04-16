@@ -4,10 +4,8 @@ export const ENV_NAMES = {
   ALLOWED_ORIGINS: 'ALLOWED_ORIGINS',
   CHUNK_SIZE_BYTES: 'CHUNK_SIZE_BYTES',
   MAX_FILE_SIZE_BYTES: 'MAX_FILE_SIZE_BYTES',
-  MODE: 'MODE',
   NODE_ENV: 'NODE_ENV',
   PORT: 'PORT',
-  USE_HTTPS: 'USE_HTTPS',
 };
 
 export const ALLOWED_ORIGINS = ev[ENV_NAMES.ALLOWED_ORIGINS]
@@ -50,10 +48,6 @@ export const MESSAGES = {
   ok: 'OK',
 };
 
-export const MODE = ev[ENV_NAMES.MODE];
-
 export const NODE_ENV = ev[ENV_NAMES.NODE_ENV];
 
 export const PORT = Number(ev[ENV_NAMES.PORT]) || 9090;
-
-export const USE_HTTPS = ev[ENV_NAMES.USE_HTTPS] === 'true';

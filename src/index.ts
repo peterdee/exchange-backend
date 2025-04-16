@@ -1,10 +1,9 @@
-const { ENV_SOURCE = '' } = process.env;
+const { ENV_FILE = '' } = process.env;
 
 (async () => {
-  if (ENV_SOURCE && ENV_SOURCE === 'file') {
+  if (ENV_FILE === 'true') {
     const { default: dotenv } = await import('dotenv');
     dotenv.config();
-    console.log('Loaded environment variables from .env file');
     return import('./server');
   }
   return import('./server');

@@ -1,34 +1,20 @@
-import { createServer as createHttpServer } from 'node:http';
-import { createServer as createHttpsServer } from 'node:https';
-import ip from 'ip';
-import { readFileSync } from 'node:fs';
+import { createServer } from 'node:http';
 import { Server as IOServer } from 'socket.io';
 
 import {
   ALLOWED_ORIGINS,
   CHUNK_SIZE_BYTES,
   EVENTS,
-  MODE,
+  NODE_ENV,
   PORT,
-  USE_HTTPS,
 } from './configuration';
 import type { CustomSocket } from './types';
 import gracefulShutdown from './utilities/graceful-shutdown';
-import printAddress from './utilities/print-address';
 import router from './router';
+import log from './utilities/log';
 
-const serverInstance = USE_HTTPS
-  ? createHttpsServer({
-    cert: readFileSync('./certificates/cert.pem'),
-    key: readFileSync('./certificates/key.pem'),
-  })
-  : createHttpServer();
+const serverInstance = createServer();
 
-if (MODE === 'local') {
-  ALLOWED_ORIGINS.push(`https://${ip.address()}:3000`);
-}
-
-console.log(ALLOWED_ORIGINS);
 const io = new IOServer(
   serverInstance,
   {
@@ -47,14 +33,16 @@ io.on(
   (connection: CustomSocket) => router(connection, io),
 );
 
-process.on(
-  'SIGINT',
-  (signal) => gracefulShutdown(signal, io, serverInstance),
-);
+if (NODE_ENV === 'production') {
+  process.on(
+    'SIGINT',
+    (signal) => gracefulShutdown(signal, io, serverInstance),
+  );
 
-process.on(
-  'SIGTERM',
-  (signal) => gracefulShutdown(signal, io, serverInstance),
-);
+  process.on(
+    'SIGTERM',
+    (signal) => gracefulShutdown(signal, io, serverInstance),
+  );
+}
 
-serverInstance.listen(PORT, () => printAddress(PORT, USE_HTTPS));
+serverInstance.listen(PORT, () => log(`Running on port ${PORT}`));
