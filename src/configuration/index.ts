@@ -3,15 +3,9 @@ const { env: ev } = process;
 export const ENV_NAMES = {
   ALLOWED_ORIGINS: 'ALLOWED_ORIGINS',
   CHUNK_SIZE_BYTES: 'CHUNK_SIZE_BYTES',
-  ENV: 'ENV',
   MAX_FILE_SIZE_BYTES: 'MAX_FILE_SIZE_BYTES',
+  NODE_ENV: 'NODE_ENV',
   PORT: 'PORT',
-  TYPE: 'TYPE',
-};
-
-export const ENVS = {
-  file: 'file',
-  nofile: 'nofile',
 };
 
 export const ALLOWED_ORIGINS = ev[ENV_NAMES.ALLOWED_ORIGINS]
@@ -20,8 +14,6 @@ export const ALLOWED_ORIGINS = ev[ENV_NAMES.ALLOWED_ORIGINS]
 
 // Use 120KB as a chunk size by default
 export const CHUNK_SIZE_BYTES = Number(ev[ENV_NAMES.CHUNK_SIZE_BYTES]) || 122880;
-
-export const ENV = ev[ENV_NAMES.ENV] || ENVS.file;
 
 export const EVENTS = {
   changePassword: 'change-password',
@@ -56,10 +48,6 @@ export const MESSAGES = {
   ok: 'OK',
 };
 
+export const NODE_ENV = ev[ENV_NAMES.NODE_ENV];
+
 export const PORT = Number(ev[ENV_NAMES.PORT]) || 9090;
-
-export const TYPE = ev[ENV_NAMES.TYPE];
-
-export const TYPES = {
-  local: 'local',
-};

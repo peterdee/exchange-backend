@@ -8,7 +8,7 @@ export default function deleteFile(
   const { fileId = '' } = data;
   if (connection.listedFiles && Array.isArray(connection.listedFiles)) {
     connection.listedFiles = connection.listedFiles.filter(
-      (item: types.ListedFile): boolean => item.id !== fileId,
+      (item: types.ListedFile) => item.id !== fileId,
     );
   }
   return connection.broadcast.emit(

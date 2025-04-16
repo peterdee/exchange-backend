@@ -4,12 +4,12 @@ import type * as types from '../types';
 export default function removePassword(
   connection: types.CustomSocket,
   data: types.GenericFileData,
-): boolean {
+) {
   const { fileId = '', ownerId = '' } = data;
   if (connection.id === ownerId && connection.listedFiles
     && Array.isArray(connection.listedFiles)) {
     connection.listedFiles.forEach(
-      (item: types.ListedFile): void => {
+      (item: types.ListedFile) => {
         if (item.id === fileId) {
           item.passwordHash = '';
           item.withPassword = false;

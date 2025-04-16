@@ -5,10 +5,10 @@ import { EVENTS } from '../configuration';
 
 export default function requestListedFiles(connection: CustomSocket, io: Server) {
   const listedFiles: ListedFile[] = [];
-  [...io.sockets.sockets].forEach((entry: [id: string, socket: CustomSocket]): void => {
+  [...io.sockets.sockets].forEach((entry: [id: string, socket: CustomSocket]) => {
     const [, socket] = entry;
     if (socket.listedFiles && Array.isArray(socket.listedFiles)) {
-      socket.listedFiles.forEach((file: ListedFile): void => {
+      socket.listedFiles.forEach((file: ListedFile) => {
         listedFiles.push({
           ...file,
           grant: '',
