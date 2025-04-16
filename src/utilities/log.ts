@@ -1,11 +1,11 @@
 import { Console } from 'console';
 
-import { ENV, ENVS } from '../configuration';
+import { NODE_ENV } from '../configuration';
 
 const logger = new Console(process.stdout, process.stderr);
 
 export default function log(...values: unknown[]) {
-  if (ENV === ENVS.file) {
+  if (NODE_ENV !== 'production') {
     logger.log(`[XCH ${Date.now()}] ${values.join(' ')}`);
   }
 }

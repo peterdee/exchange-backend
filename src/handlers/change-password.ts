@@ -23,7 +23,7 @@ export default async function changePassword(
   if (connection.id === ownerId && connection.listedFiles
     && Array.isArray(connection.listedFiles)) {
     connection.listedFiles.forEach(
-      (item: types.ListedFile): void => {
+      (item: types.ListedFile) => {
         if (item.id === fileId) {
           item.passwordHash = hashed;
           item.withPassword = true;

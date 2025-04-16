@@ -56,7 +56,6 @@ export interface RequestFileChunk extends GenericFileData {
 
 export interface ServerConfiguration {
   chunkSizeBytes: number;
-  isLocalServer: boolean;
   maxFileSizeBytes: number;
 }
 
