@@ -36,7 +36,7 @@ npm run dev
 npm start
 ```
 
-Server will be available at ws://localhost:9090
+Server will be available at [ws://localhost:9090](ws://localhost:9090)
 
 ### Cloud deployment
 
