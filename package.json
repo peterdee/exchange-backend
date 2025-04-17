@@ -2,7 +2,7 @@
   "name": "exchange-backend",
   "description": "Backend application for Exchange project",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "cross-env ENV_FILE=true nodemon",
