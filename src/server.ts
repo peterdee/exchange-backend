@@ -21,6 +21,8 @@ import log from './utilities/log';
 
 const ADDRESS = ip.address();
 
+const BACKEND_URL = `https://${ADDRESS}:${PORT}`;
+
 // TODO: frontend URL should not be hardcoded
 const FRONTEND_URL = `https://${ADDRESS}:3000`;
 
@@ -82,5 +84,5 @@ if (NODE_ENV === 'production') {
 
 serverInstance.listen(
   PORT,
-  () => log(`Running on port ${PORT}${IS_LOCAL ? ' [LOCAL]' : ''}`),
+  () => log(`Running on port ${PORT}${IS_LOCAL ? ` [LOCAL: ${BACKEND_URL}]` : ''}`),
 );
