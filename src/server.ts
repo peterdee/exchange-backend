@@ -37,9 +37,14 @@ function createServerInstance(isLocal: boolean) {
   }
 
   const app = express();
-  app.get('/', (_, response) => response.redirect(FRONTEND_URL));
+  app.get('/', (request, response) => {
+    const { callback = '' } = request.query;
+    return response.redirect(
+      `${callback || FRONTEND_URL}/?local=true&server=${BACKEND_URL}`,
+    );
+  });
 
-  qr.generate(`https://${ADDRESS}:${PORT}`, { small: true });
+  qr.generate(BACKEND_URL, { small: true });
 
   return createHttpsServer(
     {
