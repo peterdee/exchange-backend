@@ -3,6 +3,7 @@ const { env: ev } = process;
 export const ENV_NAMES = {
   ALLOWED_ORIGINS: 'ALLOWED_ORIGINS',
   CHUNK_SIZE_BYTES: 'CHUNK_SIZE_BYTES',
+  IS_LOCAL: 'IS_LOCAL',
   MAX_FILE_SIZE_BYTES: 'MAX_FILE_SIZE_BYTES',
   NODE_ENV: 'NODE_ENV',
   PORT: 'PORT',
@@ -33,6 +34,8 @@ export const EVENTS = {
   updateTotalDownloads: 'update-total-downloads',
   uploadFileChunk: 'upload-file-chunk',
 };
+
+export const IS_LOCAL = ev[ENV_NAMES.IS_LOCAL] === 'true';
 
 // Use 100MB as a maximum single file size by default
 export const MAX_FILE_SIZE_BYTES = Number(ev[ENV_NAMES.MAX_FILE_SIZE_BYTES]) || 104857600;
