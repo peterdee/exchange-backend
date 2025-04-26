@@ -1,6 +1,7 @@
 # Directories
 .idea/
 build/
+certificates/
 node_modules/
 
 # Files
