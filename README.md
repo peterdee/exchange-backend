@@ -6,11 +6,13 @@ Stack: [Node](https://nodejs.org), [Socket.IO](https://socket.io), [Typescript](
 
 ### Deployment
 
+Node **v24** is required
+
 Clone the repository and install dependencies
 
 ```shell script
 cd ./exchange-backend
-nvm use 22
+nvm use 24
 npm ci
 ```
 

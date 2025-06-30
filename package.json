@@ -12,11 +12,11 @@
   },
   "author": {
     "name": "Peter Dyumin",
-    "url": "https://github.com/peterdee"
+    "url": "https://dyum.in"
   },
   "engines": {
-    "node": ">=22.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "ip": "^2.0.1",
     "qrcode-terminal": "^0.12.0",
