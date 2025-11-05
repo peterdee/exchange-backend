@@ -1,10 +1,16 @@
-const { ENV_FILE = '' } = process.env;
+import { config } from 'dotenv';
+import { join } from 'node:path';
+import { stat } from 'node:fs/promises';
 
 (async () => {
-  if (ENV_FILE === 'true') {
-    const { default: dotenv } = await import('dotenv');
-    dotenv.config();
-    return import('./server');
+  try {
+    await stat(join(process.cwd(), '.env'));
+    config({ quiet: true });
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      throw error;
+    }
   }
+
   return import('./server');
 })();
