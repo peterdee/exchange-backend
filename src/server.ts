@@ -2,7 +2,7 @@ import { createServer as createHttpServer } from 'node:http';
 import { createServer as createHttpsServer } from 'node:https';
 import express from 'express';
 import { Server as IOServer } from 'socket.io';
-import ip from 'ip';
+import { internalIpV4Sync } from 'internal-ip';
 import qr from 'qrcode-terminal';
 import { readFileSync } from 'node:fs';
 
@@ -19,7 +19,7 @@ import gracefulShutdown from './utilities/graceful-shutdown';
 import router from './router';
 import log from './utilities/log';
 
-const ADDRESS = ip.address();
+const ADDRESS = internalIpV4Sync();
 
 const BACKEND_URL = `https://${ADDRESS}:${PORT}`;
 
